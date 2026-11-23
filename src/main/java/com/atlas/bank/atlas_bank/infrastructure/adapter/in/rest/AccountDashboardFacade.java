@@ -1,7 +1,7 @@
 package com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest;
 
-import com.atlas.bank.atlas_bank.application.service.IAccountService;
-import com.atlas.bank.atlas_bank.application.service.ITransactionQueryService;
+import com.atlas.bank.atlas_bank.application.port.in.IGetAccountUseCase;
+import com.atlas.bank.atlas_bank.application.port.in.IGetTransactionsByAccountUseCase;
 import com.atlas.bank.atlas_bank.domain.model.account.Account;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.DashboardResponse;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.ITransactionMapper;
@@ -17,8 +17,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AccountDashboardFacade {
 
-  private final IAccountService accountService;
-  private final ITransactionQueryService transactionQueryService;
+  private final IGetAccountUseCase accountService;
+  private final IGetTransactionsByAccountUseCase transactionQueryService;
   private final ITransactionMapper transactionMapper;
 
   public DashboardResponse getDashboard(Long accountId) {

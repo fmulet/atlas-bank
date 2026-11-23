@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TransferServiceImpl
   extends TransactionProcessor<TransferContext>
-  implements ITransferService, ITransferMoneyUseCase
+  implements ITransferMoneyUseCase
 {
 
   private final IAccountRepositoryPort accountRepository;

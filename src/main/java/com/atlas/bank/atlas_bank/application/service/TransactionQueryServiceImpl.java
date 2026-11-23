@@ -1,5 +1,6 @@
 package com.atlas.bank.atlas_bank.application.service;
 
+import com.atlas.bank.atlas_bank.application.port.in.IGetTransactionsByAccountUseCase;
 import com.atlas.bank.atlas_bank.application.port.out.ITransactionRepositoryPort;
 import com.atlas.bank.atlas_bank.domain.model.transaction.Transaction;
 import java.util.List;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class TransactionQueryServiceImpl implements ITransactionQueryService {
+public class TransactionQueryServiceImpl implements IGetTransactionsByAccountUseCase {
 
   private final ITransactionRepositoryPort transactionRepository;
 

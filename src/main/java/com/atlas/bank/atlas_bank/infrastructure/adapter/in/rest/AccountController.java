@@ -1,6 +1,8 @@
 package com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest;
 
-import com.atlas.bank.atlas_bank.application.service.IAccountService;
+import com.atlas.bank.atlas_bank.application.port.in.ICreateAccountUseCase;
+import com.atlas.bank.atlas_bank.application.port.in.IGetAccountUseCase;
+import com.atlas.bank.atlas_bank.application.port.in.IListAccountsUseCase;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.AccountResponse;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.CreateAccountRequest;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.DashboardResponse;
@@ -27,7 +29,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class AccountController {
 
-  private final IAccountService accountService;
+  private final ICreateAccountUseCase createAccountUseCase;
+  private final IListAccountsUseCase listAccountsUseCase;
+  private final IGetAccountUseCase getAccountUseCase;
   private final IAccountMapper accountMapper;
   private final AccountDashboardFacade dashboardFacade;
 
@@ -41,13 +45,15 @@ public class AccountController {
     @Valid @RequestBody CreateAccountRequest request
   ) {
     return ResponseEntity.status(HttpStatus.CREATED).body(
-      accountMapper.toResponse(accountService.create(accountMapper.toEntity(request)))
+      accountMapper.toResponse(
+        createAccountUseCase.create(accountMapper.toEntity(request))
+      )
     );
   }
 
   @GetMapping
   public ResponseEntity<List<AccountResponse>> findAll() {
-    List<AccountResponse> responses = accountService
+    List<AccountResponse> responses = listAccountsUseCase
       .findAll()
       .stream()
       .map(accountMapper::toResponse)
@@ -57,6 +63,6 @@ public class AccountController {
 
   @GetMapping("/{id}")
   public ResponseEntity<AccountResponse> findById(@PathVariable Long id) {
-    return ResponseEntity.ok(accountMapper.toResponse(accountService.findById(id)));
+    return ResponseEntity.ok(accountMapper.toResponse(getAccountUseCase.findById(id)));
   }
 }

@@ -6,5 +6,5 @@ import com.atlas.bank.atlas_bank.domain.model.account.Account;
  * ICreateAccountUseCase
  */
 public interface ICreateAccountUseCase {
-  Account execute(Account account);
+  Account create(Account account);
 }

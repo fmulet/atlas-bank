@@ -1,7 +1,7 @@
 package com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest;
 
+import com.atlas.bank.atlas_bank.application.port.in.IGetTransactionsByAccountUseCase;
 import com.atlas.bank.atlas_bank.application.port.in.ITransferMoneyUseCase;
-import com.atlas.bank.atlas_bank.application.service.ITransactionQueryService;
 import com.atlas.bank.atlas_bank.domain.model.transaction.Transaction;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.ITransactionMapper;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.TransactionResponse;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransactionController {
 
   private final ITransferMoneyUseCase transferMoneyUseCase;
-  private final ITransactionQueryService transactionQueryService;
+  private final IGetTransactionsByAccountUseCase transactionQueryService;
   private final ITransactionMapper transactionMapper;
 
   @PostMapping("/transfer")

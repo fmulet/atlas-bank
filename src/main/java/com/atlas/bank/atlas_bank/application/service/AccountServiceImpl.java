@@ -1,5 +1,8 @@
 package com.atlas.bank.atlas_bank.application.service;
 
+import com.atlas.bank.atlas_bank.application.port.in.ICreateAccountUseCase;
+import com.atlas.bank.atlas_bank.application.port.in.IGetAccountUseCase;
+import com.atlas.bank.atlas_bank.application.port.in.IListAccountsUseCase;
 import com.atlas.bank.atlas_bank.application.port.out.IAccountRepositoryPort;
 import com.atlas.bank.atlas_bank.domain.exception.AccountNotFoundException;
 import com.atlas.bank.atlas_bank.domain.model.account.Account;
@@ -14,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class AccountServiceImpl implements IAccountService {
+public class AccountServiceImpl
+  implements ICreateAccountUseCase, IListAccountsUseCase, IGetAccountUseCase
+{
 
   private final IAccountRepositoryPort accountRepository;
 

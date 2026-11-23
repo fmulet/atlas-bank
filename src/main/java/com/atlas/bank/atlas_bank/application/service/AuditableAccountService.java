@@ -1,5 +1,8 @@
 package com.atlas.bank.atlas_bank.application.service;
 
+import com.atlas.bank.atlas_bank.application.port.in.ICreateAccountUseCase;
+import com.atlas.bank.atlas_bank.application.port.in.IGetAccountUseCase;
+import com.atlas.bank.atlas_bank.application.port.in.IListAccountsUseCase;
 import com.atlas.bank.atlas_bank.domain.model.account.Account;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
@@ -14,19 +17,38 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @Primary
-public class AuditableAccountService implements IAccountService {
+public class AuditableAccountService
+  implements ICreateAccountUseCase, IListAccountsUseCase, IGetAccountUseCase
+{
 
-  private IAccountService delegate;
+  private final ICreateAccountUseCase createAccountUseCase;
+  private final IGetAccountUseCase getAccountUseCase;
+  private final IListAccountsUseCase listAccountsUseCase;
 
   public AuditableAccountService(
-    @Qualifier("accountServiceImpl") IAccountService delegate
+    @Qualifier("accountServiceImpl") ICreateAccountUseCase createAccountUseCase,
+    @Qualifier("accountServiceImpl") IGetAccountUseCase getAccountUseCase,
+    @Qualifier("accountServiceImpl") IListAccountsUseCase listAccountsUseCase
   ) {
-    this.delegate = delegate;
+    this.createAccountUseCase = createAccountUseCase;
+    this.getAccountUseCase = getAccountUseCase;
+    this.listAccountsUseCase = listAccountsUseCase;
   }
 
   @PostConstruct
   public void init() {
-    log.info("Clase real del accountService: {}", delegate.getClass().getName());
+    log.info(
+      "Clase real del accountService: {}",
+      this.createAccountUseCase.getClass().getName()
+    );
+    log.info(
+      "Clase real del accountService: {}",
+      this.getAccountUseCase.getClass().getName()
+    );
+    log.info(
+      "Clase real del accountService: {}",
+      this.listAccountsUseCase.getClass().getName()
+    );
   }
 
   @Override
@@ -36,18 +58,18 @@ public class AuditableAccountService implements IAccountService {
       account.getAccountNumber(),
       account.getOwnerName()
     );
-    Account created = delegate.create(account);
+    Account created = createAccountUseCase.create(account);
     log.info("Cuenta creada exitosamente - ID: {}", created.getId());
     return created;
   }
 
   @Override
   public List<Account> findAll() {
-    return delegate.findAll();
+    return listAccountsUseCase.findAll();
   }
 
   @Override
   public Account findById(Long id) {
-    return delegate.findById(id);
+    return getAccountUseCase.findById(id);
   }
 }
