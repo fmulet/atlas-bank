@@ -1,7 +1,8 @@
-package com.atlas.bank.atlas_bank.transaction.service.transfer;
+package com.atlas.bank.atlas_bank.application.service;
 
 import com.atlas.bank.atlas_bank.application.port.in.ITransferMoneyUseCase;
 import com.atlas.bank.atlas_bank.application.port.out.IAccountRepositoryPort;
+import com.atlas.bank.atlas_bank.application.port.out.ITransactionRepositoryPort;
 import com.atlas.bank.atlas_bank.domain.exception.AccountNotFoundException;
 import com.atlas.bank.atlas_bank.domain.model.account.Account;
 import com.atlas.bank.atlas_bank.domain.model.transaction.Transaction;
@@ -9,8 +10,6 @@ import com.atlas.bank.atlas_bank.domain.model.transaction.TransferContext;
 import com.atlas.bank.atlas_bank.domain.service.TransferDomainService;
 import com.atlas.bank.atlas_bank.domain.strategy.fee.IFeeCalculator;
 import com.atlas.bank.atlas_bank.domain.validation.chain.ITransferValidator;
-import com.atlas.bank.atlas_bank.transaction.repository.ITransactionRepository;
-import com.atlas.bank.atlas_bank.transaction.service.factory.TransactionFactory;
 import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -32,7 +31,7 @@ public class TransferServiceImpl
   private final TransferDomainService transferDomainService;
 
   public TransferServiceImpl(
-    ITransactionRepository transactionRepository,
+    ITransactionRepositoryPort transactionRepository,
     IAccountRepositoryPort accountRepository,
     List<IFeeCalculator> feeCalculators,
     List<ITransferValidator> validators,

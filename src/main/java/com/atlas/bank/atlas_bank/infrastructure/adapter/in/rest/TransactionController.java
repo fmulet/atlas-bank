@@ -1,11 +1,11 @@
-package com.atlas.bank.atlas_bank.transaction.controller;
+package com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest;
 
 import com.atlas.bank.atlas_bank.application.port.in.ITransferMoneyUseCase;
+import com.atlas.bank.atlas_bank.application.service.ITransactionQueryService;
 import com.atlas.bank.atlas_bank.domain.model.transaction.Transaction;
-import com.atlas.bank.atlas_bank.transaction.dto.ITransactionMapper;
-import com.atlas.bank.atlas_bank.transaction.dto.TransactionResponse;
-import com.atlas.bank.atlas_bank.transaction.dto.TransferRequest;
-import com.atlas.bank.atlas_bank.transaction.service.ITransactionQueryService;
+import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.ITransactionMapper;
+import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.TransactionResponse;
+import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.TransferRequest;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
