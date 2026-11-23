@@ -1,0 +1,24 @@
+package com.atlas.bank.atlas_bank.domain.event;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+
+/**
+ * AuditListener
+ */
+@Component
+@Slf4j
+public class AuditListener {
+
+  @EventListener
+  public void onTransactionExecuted(TransactionExecutedEvent event) {
+    log.info(
+      "Registrando auditoria - {} de cuenta #{} a cuenta #{} por ${}",
+      event.type(),
+      event.sourceAccountId(),
+      event.targetAccountId(),
+      event.amount()
+    );
+  }
+}

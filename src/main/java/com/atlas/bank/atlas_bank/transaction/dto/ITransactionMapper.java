@@ -1,0 +1,12 @@
+package com.atlas.bank.atlas_bank.transaction.dto;
+
+import com.atlas.bank.atlas_bank.domain.model.transaction.Transaction;
+import org.mapstruct.Mapper;
+
+/**
+ * ITransactionMapper
+ */
+@Mapper(componentModel = "spring")
+public interface ITransactionMapper {
+  TransactionResponse toResponse(Transaction transaction);
+}

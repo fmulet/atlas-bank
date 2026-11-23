@@ -1,0 +1,65 @@
+package com.atlas.bank.atlas_bank.customer.model;
+
+import com.atlas.bank.atlas_bank.shared.model.Email;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+/**
+ * Customer
+ */
+@Entity
+@Table(name = "customer")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Customer {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @EqualsAndHashCode.Include
+  private Long id;
+
+  @Column(nullable = false)
+  private String name;
+
+  @Embedded
+  @AttributeOverride(
+    name = "value",
+    column = @Column(name = "email", nullable = false, unique = true)
+  )
+  private Email email;
+
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false, length = 20)
+  private CustomerStatus status;
+
+  @Column(name = "created_At", nullable = false, updatable = false)
+  private LocalDateTime createdAt;
+
+  @PrePersist
+  private void prePersist() {
+    this.createdAt = LocalDateTime.now();
+    if (status == null) status = CustomerStatus.ACTIVE;
+  }
+
+  public boolean isActive() {
+    return this.status == CustomerStatus.ACTIVE;
+  }
+}
