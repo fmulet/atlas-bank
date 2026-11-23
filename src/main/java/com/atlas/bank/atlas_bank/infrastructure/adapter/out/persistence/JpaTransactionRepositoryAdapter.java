@@ -34,6 +34,10 @@ public class JpaTransactionRepositoryAdapter implements ITransactionRepositoryPo
     Long sourceAccountId,
     Long targetAccountId
   ) {
-    return null;
+    return springDataTransactionRepository
+      .findBySourceAccountIdOrTargetAccountId(sourceAccountId, targetAccountId)
+      .stream()
+      .map(transactionPersistenceMapper::toDomain)
+      .toList();
   }
 }

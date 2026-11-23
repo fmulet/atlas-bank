@@ -1,6 +1,5 @@
 package com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest;
 
-import com.atlas.bank.atlas_bank.account.service.AccountDashboardFacade;
 import com.atlas.bank.atlas_bank.application.service.IAccountService;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.AccountResponse;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.CreateAccountRequest;

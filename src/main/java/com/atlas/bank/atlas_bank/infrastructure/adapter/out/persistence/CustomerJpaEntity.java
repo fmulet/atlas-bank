@@ -1,6 +1,6 @@
-package com.atlas.bank.atlas_bank.customer.model;
+package com.atlas.bank.atlas_bank.infrastructure.adapter.out.persistence;
 
-import com.atlas.bank.atlas_bank.shared.model.Email;
+import com.atlas.bank.atlas_bank.domain.model.customer.CustomerStatus;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -23,13 +23,13 @@ import lombok.Setter;
  * Customer
  */
 @Entity
-@Table(name = "customer")
+@Table(name = "customers")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Customer {
+public class CustomerJpaEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,9 +57,5 @@ public class Customer {
   private void prePersist() {
     this.createdAt = LocalDateTime.now();
     if (status == null) status = CustomerStatus.ACTIVE;
-  }
-
-  public boolean isActive() {
-    return this.status == CustomerStatus.ACTIVE;
   }
 }

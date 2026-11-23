@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class ExternalFraudCheckerAdapter implements IFraudChecker, IFraudCheckPort {
+public class ExternalFraudCheckerAdapter implements IFraudCheckPort {
 
   @Override
   public FraudCheckResult check(Long accountId, BigDecimal amount) {

@@ -1,4 +1,4 @@
-package com.atlas.bank.atlas_bank.shared.config;
+package com.atlas.bank.atlas_bank.infrastructure.config;
 
 import java.util.List;
 import java.util.stream.Collectors;
