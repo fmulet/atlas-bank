@@ -2,14 +2,11 @@ package com.atlas.bank.atlas_bank.domain.validation.chain;
 
 import com.atlas.bank.atlas_bank.domain.exception.InsufficientFundsException;
 import com.atlas.bank.atlas_bank.domain.model.transaction.TransferContext;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 /**
  * SufficientFundsValidator
  */
-@Component
-@Order(2)
+
 public class SufficientFundsValidator implements ITransferValidator {
 
   @Override

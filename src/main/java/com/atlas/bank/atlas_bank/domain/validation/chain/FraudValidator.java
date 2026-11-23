@@ -5,16 +5,13 @@ import com.atlas.bank.atlas_bank.domain.exception.FraudCheckException;
 import com.atlas.bank.atlas_bank.domain.model.shared.FraudCheckResult;
 import com.atlas.bank.atlas_bank.domain.model.transaction.TransferContext;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 /**
  * FraudeValidator
  */
-@Component
-@Order(3)
+
 @RequiredArgsConstructor
-public class FraudeValidator implements ITransferValidator {
+public class FraudValidator implements ITransferValidator {
 
   private final IFraudCheckPort fraudChecker;
 

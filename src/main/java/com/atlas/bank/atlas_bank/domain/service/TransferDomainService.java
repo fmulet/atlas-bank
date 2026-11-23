@@ -3,12 +3,11 @@ package com.atlas.bank.atlas_bank.domain.service;
 import com.atlas.bank.atlas_bank.domain.model.account.Account;
 import com.atlas.bank.atlas_bank.domain.model.shared.Money;
 import java.math.BigDecimal;
-import org.springframework.stereotype.Service;
 
 /**
  * TransferDomainService
  */
-@Service
+
 public class TransferDomainService {
 
   public void transfer(Account from, Account to, BigDecimal amount, BigDecimal fee) {
