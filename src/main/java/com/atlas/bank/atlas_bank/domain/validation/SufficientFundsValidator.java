@@ -1,4 +1,4 @@
-package com.atlas.bank.atlas_bank.domain.validation.chain;
+package com.atlas.bank.atlas_bank.domain.validation;
 
 import com.atlas.bank.atlas_bank.domain.exception.InsufficientFundsException;
 import com.atlas.bank.atlas_bank.domain.model.transaction.TransferContext;

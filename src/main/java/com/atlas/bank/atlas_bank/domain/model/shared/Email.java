@@ -18,7 +18,7 @@ public class Email {
     if (value == null || value.isBlank()) {
       throw new IllegalArgumentException("El email no puede ser nulo o vacío.");
     }
-    if (!value.matches("^[\\w-\\.]+@([\\w-]+\\.[a-zA-Z]{2,}$")) {
+    if (!value.matches("^[\\w.-]+@([\\w-]+\\.)+[a-zA-Z]{2,}$")) {
       throw new IllegalArgumentException("El email no es válido: " + value + ".");
     }
     this.value = value.toLowerCase().trim();

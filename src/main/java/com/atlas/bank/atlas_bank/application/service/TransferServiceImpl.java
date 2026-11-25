@@ -10,7 +10,7 @@ import com.atlas.bank.atlas_bank.domain.model.transaction.Transaction;
 import com.atlas.bank.atlas_bank.domain.model.transaction.TransferContext;
 import com.atlas.bank.atlas_bank.domain.service.TransferDomainService;
 import com.atlas.bank.atlas_bank.domain.strategy.fee.IFeeCalculator;
-import com.atlas.bank.atlas_bank.domain.validation.chain.ITransferValidator;
+import com.atlas.bank.atlas_bank.domain.validation.ITransferValidator;
 import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.stereotype.Service;

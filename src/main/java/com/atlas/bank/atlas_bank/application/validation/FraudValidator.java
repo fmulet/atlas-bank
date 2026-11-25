@@ -1,9 +1,10 @@
-package com.atlas.bank.atlas_bank.domain.validation.chain;
+package com.atlas.bank.atlas_bank.application.validation;
 
 import com.atlas.bank.atlas_bank.application.port.out.IFraudCheckPort;
 import com.atlas.bank.atlas_bank.domain.exception.FraudCheckException;
 import com.atlas.bank.atlas_bank.domain.model.shared.FraudCheckResult;
 import com.atlas.bank.atlas_bank.domain.model.transaction.TransferContext;
+import com.atlas.bank.atlas_bank.domain.validation.ITransferValidator;
 import lombok.RequiredArgsConstructor;
 
 /**
