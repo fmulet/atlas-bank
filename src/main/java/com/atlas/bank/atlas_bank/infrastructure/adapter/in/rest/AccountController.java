@@ -1,11 +1,13 @@
 package com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest;
 
+import com.atlas.bank.atlas_bank.application.command.CreateAccountCommand;
+import com.atlas.bank.atlas_bank.application.facade.AccountDashboardFacade;
 import com.atlas.bank.atlas_bank.application.port.in.ICreateAccountUseCase;
 import com.atlas.bank.atlas_bank.application.port.in.IGetAccountUseCase;
 import com.atlas.bank.atlas_bank.application.port.in.IListAccountsUseCase;
+import com.atlas.bank.atlas_bank.application.query.DashboardReadModel;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.AccountResponse;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.CreateAccountRequest;
-import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.DashboardResponse;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.IAccountMapper;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -36,7 +38,7 @@ public class AccountController {
   private final AccountDashboardFacade dashboardFacade;
 
   @GetMapping("/{id}/dashboard")
-  public ResponseEntity<DashboardResponse> getDashboard(@PathVariable Long id) {
+  public ResponseEntity<DashboardReadModel> getDashboard(@PathVariable Long id) {
     return ResponseEntity.ok(dashboardFacade.getDashboard(id));
   }
 
@@ -44,10 +46,15 @@ public class AccountController {
   public ResponseEntity<AccountResponse> create(
     @Valid @RequestBody CreateAccountRequest request
   ) {
+    CreateAccountCommand command = CreateAccountCommand.builder()
+      .accountNumber(request.getAccountNumber())
+      .ownerName(request.getOwnerName())
+      .email(request.getEmail())
+      .accountType(request.getType())
+      .balance(request.getBalance())
+      .build();
     return ResponseEntity.status(HttpStatus.CREATED).body(
-      accountMapper.toResponse(
-        createAccountUseCase.create(accountMapper.toEntity(request))
-      )
+      accountMapper.toResponse(createAccountUseCase.create(command))
     );
   }
 

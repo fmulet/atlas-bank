@@ -1,11 +1,12 @@
 package com.atlas.bank.atlas_bank.application.port.in;
 
-import com.atlas.bank.atlas_bank.domain.model.transaction.Transaction;
+import com.atlas.bank.atlas_bank.application.query.GetAccountStatementQuery;
+import com.atlas.bank.atlas_bank.application.query.TransactionReadModel;
 import java.util.List;
 
 /**
  * IGetTransactionsByAccountUseCase
  */
 public interface IGetTransactionsByAccountUseCase {
-  List<Transaction> getByAccountId(Long accountId);
+  List<TransactionReadModel> getByAccountId(GetAccountStatementQuery query);
 }

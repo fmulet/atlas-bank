@@ -1,11 +1,11 @@
-package com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest;
+package com.atlas.bank.atlas_bank.application.facade;
 
 import com.atlas.bank.atlas_bank.application.port.in.IGetAccountUseCase;
 import com.atlas.bank.atlas_bank.application.port.in.IGetTransactionsByAccountUseCase;
+import com.atlas.bank.atlas_bank.application.query.DashboardReadModel;
+import com.atlas.bank.atlas_bank.application.query.GetAccountStatementQuery;
+import com.atlas.bank.atlas_bank.application.query.TransactionReadModel;
 import com.atlas.bank.atlas_bank.domain.model.account.Account;
-import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.DashboardResponse;
-import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.ITransactionMapper;
-import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.TransactionResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,17 +19,13 @@ public class AccountDashboardFacade {
 
   private final IGetAccountUseCase accountService;
   private final IGetTransactionsByAccountUseCase transactionQueryService;
-  private final ITransactionMapper transactionMapper;
 
-  public DashboardResponse getDashboard(Long accountId) {
+  public DashboardReadModel getDashboard(Long accountId) {
     Account account = accountService.findById(accountId);
-    List<TransactionResponse> transactionResponses = transactionQueryService
-      .getByAccountId(accountId)
-      .stream()
-      .map(transactionMapper::toResponse)
-      .toList();
+    List<TransactionReadModel> transactionResponses =
+      transactionQueryService.getByAccountId(new GetAccountStatementQuery(accountId));
 
-    return DashboardResponse.builder()
+    return DashboardReadModel.builder()
       .accountId(account.getId())
       .accountNumber(account.getAccountNumber())
       .ownerName(account.getAccountNumber())

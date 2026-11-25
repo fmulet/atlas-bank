@@ -1,7 +1,10 @@
 package com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest;
 
+import com.atlas.bank.atlas_bank.application.command.TransferMoneyCommand;
 import com.atlas.bank.atlas_bank.application.port.in.IGetTransactionsByAccountUseCase;
 import com.atlas.bank.atlas_bank.application.port.in.ITransferMoneyUseCase;
+import com.atlas.bank.atlas_bank.application.query.GetAccountStatementQuery;
+import com.atlas.bank.atlas_bank.application.query.TransactionReadModel;
 import com.atlas.bank.atlas_bank.domain.model.transaction.Transaction;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.ITransactionMapper;
 import com.atlas.bank.atlas_bank.infrastructure.adapter.in.rest.dto.TransactionResponse;
@@ -33,23 +36,23 @@ public class TransactionController {
   public ResponseEntity<TransactionResponse> transfer(
     @Valid @RequestBody TransferRequest request
   ) {
-    Transaction transaction = transferMoneyUseCase.execute(
-      request.getFromAccountId(),
-      request.getToAccountId(),
-      request.getAmount()
-    );
+    TransferMoneyCommand command = TransferMoneyCommand.builder()
+      .toId(request.getFromAccountId())
+      .fromId(request.getToAccountId())
+      .amount(request.getAmount())
+      .build();
+    Transaction transaction = transferMoneyUseCase.execute(command);
     return ResponseEntity.ok(transactionMapper.toResponse(transaction));
   }
 
   @GetMapping("/{id}/transactions")
-  public ResponseEntity<List<TransactionResponse>> getTransactions(
+  public ResponseEntity<List<TransactionReadModel>> getTransactions(
     @PathVariable Long id
   ) {
-    List<TransactionResponse> transactions = transactionQueryService
-      .getByAccountId(id)
-      .stream()
-      .map(transactionMapper::toResponse)
-      .toList();
+    GetAccountStatementQuery query = new GetAccountStatementQuery(id);
+    List<TransactionReadModel> transactions = transactionQueryService.getByAccountId(
+      query
+    );
     return ResponseEntity.ok(transactions);
   }
 }

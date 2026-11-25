@@ -1,5 +1,6 @@
 package com.atlas.bank.atlas_bank.application.service;
 
+import com.atlas.bank.atlas_bank.application.command.CreateAccountCommand;
 import com.atlas.bank.atlas_bank.application.port.in.ICreateAccountUseCase;
 import com.atlas.bank.atlas_bank.application.port.in.IGetAccountUseCase;
 import com.atlas.bank.atlas_bank.application.port.in.IListAccountsUseCase;
@@ -52,13 +53,13 @@ public class AuditableAccountService
   }
 
   @Override
-  public Account create(Account account) {
+  public Account create(CreateAccountCommand command) {
     log.info(
       "Creando cuenta - número: {}, titular: {}",
-      account.getAccountNumber(),
-      account.getOwnerName()
+      command.accountNumber(),
+      command.ownerName()
     );
-    Account created = createAccountUseCase.create(account);
+    Account created = createAccountUseCase.create(command);
     log.info("Cuenta creada exitosamente - ID: {}", created.getId());
     return created;
   }
