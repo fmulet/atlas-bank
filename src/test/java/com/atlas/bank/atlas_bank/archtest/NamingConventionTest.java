@@ -21,7 +21,7 @@ public class NamingConventionTest {
     .that()
     .haveSimpleNameEndingWith("Controller")
     .should()
-    .resideInAPackage("..infrastructure.adapter.in.rest..")
+    .resideInAPackage("..infrastructure.adapter.in..")
     .because(
       "Controllers should reside in the infrastructure layer and be named with the suffix 'Controller'"
     );

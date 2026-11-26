@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
   @Bean
@@ -35,6 +37,8 @@ public class SecurityConfig {
           .hasAnyRole("ADMIN", "USER")
           .requestMatchers(HttpMethod.GET, "/api/v1/transactions/{id}/transactions")
           .hasAnyRole("ADMIN", "USER")
+          .requestMatchers(HttpMethod.POST, "/api/v1/ai/**")
+          .permitAll()
           .requestMatchers("/h2-console/**")
           .permitAll()
           .anyRequest()

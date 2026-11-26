@@ -6,6 +6,7 @@ import com.atlas.bank.atlas_bank.domain.exception.FraudCheckException;
 import com.atlas.bank.atlas_bank.domain.exception.InsufficientFundsException;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * GlobalExceptionHandler
  */
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(AccountNotFoundException.class)
@@ -39,8 +41,17 @@ public class GlobalExceptionHandler {
     );
   }
 
+  @ExceptionHandler(IllegalStateException.class)
+  public ProblemDetail handleIllegalState(IllegalStateException exception) {
+    return ProblemDetail.forStatusAndDetail(
+      HttpStatus.UNPROCESSABLE_CONTENT,
+      exception.getMessage()
+    );
+  }
+
   @ExceptionHandler(Exception.class)
   public ProblemDetail handleException(Exception exception) {
+    log.error("Error inesperado en la aplicación: ", exception);
     return ProblemDetail.forStatusAndDetail(
       HttpStatus.INTERNAL_SERVER_ERROR,
       "Error interno del servidor."

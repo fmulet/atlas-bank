@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.atlas.bank.atlas_bank.domain.exception.AccountNotActiveException;
 import com.atlas.bank.atlas_bank.domain.exception.InsufficientFundsException;
 import com.atlas.bank.atlas_bank.domain.model.shared.Currency;
 import com.atlas.bank.atlas_bank.domain.model.shared.Email;
@@ -81,5 +82,36 @@ class AccountDomainTest {
     assertEquals(AccountStatus.ACTIVE, account.getStatus());
     assertEquals(Money.zero(Currency.CLP), account.getBalance());
     assertNotNull(account.getCreatedAt());
+  }
+
+  @Test
+  @DisplayName("Debe cerrar una cuenta activa sin saldo")
+  void shouldCloseActiveAccountWithZeroBalance() {
+    Account account = createAccountWithBalance(BigDecimal.ZERO);
+
+    account.close();
+
+    assertEquals(AccountStatus.CLOSED, account.getStatus());
+  }
+
+  @Test
+  @DisplayName("Debe rechazar el cierre cuando la cuenta no está activa")
+  void shouldRejectCloseWhenAccountIsNotActive() {
+    Account account = createAccountWithBalance(BigDecimal.ZERO);
+    account.setStatus(AccountStatus.FROZEN);
+
+    assertThrows(AccountNotActiveException.class, () -> account.close());
+  }
+
+  @Test
+  @DisplayName("Debe rechazar el cierre cuando la cuenta tiene saldo")
+  void shouldRejectCloseWhenAccountHasBalance() {
+    Account account = createAccountWithBalance(new BigDecimal("1000"));
+
+    IllegalStateException exception = assertThrows(
+      IllegalStateException.class,
+      () -> account.close()
+    );
+    assertEquals("No se puede cerrar una cuenta con saldo", exception.getMessage());
   }
 }

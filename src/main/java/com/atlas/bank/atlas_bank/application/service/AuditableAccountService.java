@@ -1,6 +1,8 @@
 package com.atlas.bank.atlas_bank.application.service;
 
+import com.atlas.bank.atlas_bank.application.command.CloseAccountCommand;
 import com.atlas.bank.atlas_bank.application.command.CreateAccountCommand;
+import com.atlas.bank.atlas_bank.application.port.in.CloseAccountUseCase;
 import com.atlas.bank.atlas_bank.application.port.in.ICreateAccountUseCase;
 import com.atlas.bank.atlas_bank.application.port.in.IGetAccountUseCase;
 import com.atlas.bank.atlas_bank.application.port.in.IListAccountsUseCase;
@@ -19,21 +21,24 @@ import org.springframework.stereotype.Component;
 @Component
 @Primary
 public class AuditableAccountService
-  implements ICreateAccountUseCase, IListAccountsUseCase, IGetAccountUseCase
+  implements ICreateAccountUseCase, IListAccountsUseCase, IGetAccountUseCase, CloseAccountUseCase
 {
 
   private final ICreateAccountUseCase createAccountUseCase;
   private final IGetAccountUseCase getAccountUseCase;
   private final IListAccountsUseCase listAccountsUseCase;
+  private final CloseAccountUseCase closeAccountUseCase;
 
   public AuditableAccountService(
     @Qualifier("accountServiceImpl") ICreateAccountUseCase createAccountUseCase,
     @Qualifier("accountServiceImpl") IGetAccountUseCase getAccountUseCase,
-    @Qualifier("accountServiceImpl") IListAccountsUseCase listAccountsUseCase
+    @Qualifier("accountServiceImpl") IListAccountsUseCase listAccountsUseCase,
+    @Qualifier("accountServiceImpl") CloseAccountUseCase closeAccountUseCase
   ) {
     this.createAccountUseCase = createAccountUseCase;
     this.getAccountUseCase = getAccountUseCase;
     this.listAccountsUseCase = listAccountsUseCase;
+    this.closeAccountUseCase = closeAccountUseCase;
   }
 
   @PostConstruct
@@ -72,5 +77,17 @@ public class AuditableAccountService
   @Override
   public Account findById(Long id) {
     return getAccountUseCase.findById(id);
+  }
+
+  @Override
+  public Account close(CloseAccountCommand command) {
+    log.info("Cerrando cuenta - ID: {}", command.accountId());
+    Account closed = closeAccountUseCase.close(command);
+    log.info(
+      "Cuenta cerrada exitosamente - ID: {}, estado: {}",
+      closed.getId(),
+      closed.getStatus()
+    );
+    return closed;
   }
 }
